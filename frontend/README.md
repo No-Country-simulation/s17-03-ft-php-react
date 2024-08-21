@@ -1,4 +1,4 @@
-# ⚡Next professional boilerplate </br> [![GitHub Actions Workflow Status][status-workflow-badge]][status-workflow-badge-link] ![GitHub commit activity (branch)][commit-activity-badge] ![GitHub Created At][created-at-badge] [![MarcossIC][made-by-badge]][made-by-badge-link]
+# ⚡Next professional boilerplate </br> 
 
 Welcome to nextjs professional boilerplate, an open source template for nextjs. It is prepared with functionalities that will help you make quality code, and will facilitate the maintainability of the code. You can find versions with different functionalities among the branches. I hope you like it
 
@@ -306,13 +306,6 @@ npx tsc && npx jest --detectOpenHandles --passWithNoTests
 ```
 
 In this case, only the tests are validated before pushing
-
-<!-- Badges -->
-
-[commit-activity-badge]: https://img.shields.io/github/commit-activity/m/MarcossIC/next-template/main?logo=github
-[created-at-badge]: https://img.shields.io/github/created-at/MarcossIC/next-template?logo=github
-[made-by-badge]: https://img.shields.io/badge/made_by-MarcossIC-blue?color=4017d1&link=https://marcosic.netlify.app&logo=readdotcv
-[status-workflow-badge]: https://img.shields.io/github/actions/workflow/status/MarcossIC/next-template/next_analysis.yml?label=Status
 
 <!-- Links -->
 
