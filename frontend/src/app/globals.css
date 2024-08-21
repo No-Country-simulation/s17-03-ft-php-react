@@ -1,0 +1,39 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  height: 100%;
+
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-tap-highlight-color: transparent;
+  font-feature-settings: normal;
+  font-variation-settings: normal;
+}
+
+body {
+  max-width: 100dvw;
+  overflow-x: hidden;
+  touch-action: manipulation;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+h7 {
+  text-wrap: balance;
+}
+
+p,
+pre {
+  text-wrap: pretty;
+}
