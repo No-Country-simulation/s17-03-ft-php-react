@@ -1,4 +1,4 @@
-# ⚡Next professional boilerplate </br> 
+# ⚡Next professional boilerplate </br>
 
 Welcome to nextjs professional boilerplate, an open source template for nextjs. It is prepared with functionalities that will help you make quality code, and will facilitate the maintainability of the code. You can find versions with different functionalities among the branches. I hope you like it
 

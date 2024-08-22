@@ -19,34 +19,51 @@ try {
   // Create commit-msg hook for Commitlint
   const commitMsgPath = path.join(huskyDir, 'commit-msg');
   const commitMsgHook = `set +e
+if [ ! -d "frontend" ]; then
+  echo "Not found frontend skip commit-msg for frontend."
+  exit 0
+fi
+
+if git diff --cached --quiet -- frontend; then
+  echo "No changes in frontend skip commit-msg for frontend."
+  exit 0
+fi
 
 cd frontend
-
-npx commitlint --edit || { echo 'The commit message does not meet the requirements. Look at "commitlint.config.js" file.'; exit 1; }`;
+npx commitlint --edit || { echo -e '\\x1b[0;31m❌The commit message does not meet the requirements. Look at "commitlint.config.js" file.\\x1b[0m'; exit 1; }`;
   fs.writeFileSync(commitMsgPath, commitMsgHook);
 
   // Create pre-commit hook
   const preCommitPath = path.join(huskyDir, 'pre-commit');
   const preCommitHook = `set +e
+if [ ! -d "frontend" ]; then
+  echo "Not found frontend skip pre-commit for frontend."
+  exit 0
+fi
+
+if git diff --cached --quiet -- frontend; then
+  echo "No changes in frontend skip pre-commit for frontend."
+  exit 0
+fi
 
 cd frontend
-
 npx lint-staged`;
   fs.writeFileSync(preCommitPath, preCommitHook);
 
   // Create pre-push hook
   const prePushPath = path.join(huskyDir, 'pre-push');
   const prePushHook = `set +e
+if [ ! -d "frontend" ]; then
+  echo "Not found frontend skip pre-push for frontend."
+  exit 0
+fi
 
-git diff HEAD --quiet -- frontend/
-
-if [ $? -ne 0 ]; then
-  echo "Please commit the changes before a push."
-  exit 1
+if git diff --cached --quiet -- frontend; then
+  echo "No changes in frontend skip pre-push for frontend."
+  exit 0
 fi
 
 cd frontend
-
 npx tsc || { echo 'Type checking failed. Push aborted.'; exit 1; }
 npx jest --detectOpenHandles --passWithNoTests || { echo 'Tests failed. Push aborted.'; exit 1; }`;
   fs.writeFileSync(prePushPath, prePushHook);
