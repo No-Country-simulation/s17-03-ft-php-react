@@ -21,7 +21,7 @@
     "test:storybook": "cross-env FORCE_COLOR=1 test-storybook",
     "storybook": "cross-env FORCE_COLOR=1 storybook dev -p 6006",
     "prebuild:storybook": "jest --json --outputFile=.jest-test-results.json || $1",
-    "build:storybook": "build-storybook -c .storybook -o build/",
+    "build:storybook": "cross-env FORCE_COLOR=1 storybook build -c .storybook -o build/",
     "postinstall": "npx patch-package && node setup-husky.js"
   },
   "dependencies": {
