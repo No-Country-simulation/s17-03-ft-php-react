@@ -1,4 +1,4 @@
-name: Deploy CI
+name: CI
 on:
   push:
     branches: ["frontend", "main"]
@@ -7,11 +7,15 @@ on:
   workflow_dispatch:
 
 concurrency:
-  group: g-${{ github.ref_name == 'main' && 'main' || github.head_ref }}
+  group: g-${{ github.head_ref }}
   cancel-in-progress: true
 
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
 jobs:
-  CI:
+  ci:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -44,15 +48,17 @@ jobs:
         run: pnpm test
 
   deploy:
-    if: ${{ success() && github.ref == 'refs/heads/frontend' }}
+    needs: CI
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
-    env:
-      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
     steps:
       - name: Setup/ Checkout
         uses: actions/checkout@v4
+
+      - name: Setup/ Install pnpm 9.7.0 manually
+        working-directory: ./frontend
+        run: npm install -g pnpm@9.7.0
 
       - name: Install Vercel CLI
         working-directory: ./frontend
