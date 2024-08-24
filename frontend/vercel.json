@@ -1,0 +1,10 @@
+{
+  "buildCommand": "next build",
+  "devCommand": "next dev --port 3000",
+  "cleanUrls": true,
+  "framework": "nextjs",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./",
+  "installCommand": "pnpm install",
+  "public": true,
+  "trailingSlash": false
+}
