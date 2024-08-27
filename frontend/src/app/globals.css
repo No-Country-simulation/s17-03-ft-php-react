@@ -19,6 +19,7 @@
 
 body {
   max-width: 100dvw;
+  font-family: var(--font-montserrat);
   overflow-x: hidden;
   touch-action: manipulation;
 }

@@ -15,7 +15,11 @@ module.exports = {
     './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        montserrat: 'var(--font-montserrat)',
+      },
+    },
   },
   plugins: [
     plugin(({ addVariant, e }) => {
