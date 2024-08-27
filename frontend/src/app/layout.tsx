@@ -1,9 +1,7 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
 import './globals.css';
 import type { ReactNode } from 'react';
-
-const inter = Inter({ subsets: ['latin'] });
+import { montserrat } from '../styles/font';
 
 export const metadata: Metadata = {
   title: 'Next Template',
@@ -18,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <body className={montserrat.variable}>{children}</body>
     </html>
   );
 }
