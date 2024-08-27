@@ -77,8 +77,11 @@ module.exports = {
           '99': '#FCFCFC',
           '100':'#FFFFFF'
         }
-      }
-      
+      },
+      fontFamily: {
+        montserrat: 'var(--font-montserrat)',
+      },
+
     },
   },
   plugins: [

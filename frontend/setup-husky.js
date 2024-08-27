@@ -24,8 +24,8 @@ if [ ! -d "frontend" ]; then
   exit 0
 fi
 
-if git diff --cached --quiet -- frontend; then
-  echo "No changes in frontend skip commit-msg for frontend."
+if ! git diff --cached --name-only | grep -q '^frontend/'; then
+  echo "No changes in frontend, skipping commit-msg for frontend."
   exit 0
 fi
 
@@ -41,8 +41,8 @@ if [ ! -d "frontend" ]; then
   exit 0
 fi
 
-if git diff --cached --quiet -- frontend; then
-  echo "No changes in frontend skip pre-commit for frontend."
+if ! git diff --cached --name-only | grep -q '^frontend/'; then
+  echo "No changes in frontend, skipping pre-commit for frontend."
   exit 0
 fi
 
@@ -55,11 +55,6 @@ npx lint-staged`;
   const prePushHook = `set +e
 if [ ! -d "frontend" ]; then
   echo "Not found frontend skip pre-push for frontend."
-  exit 0
-fi
-
-if git diff --cached --quiet -- frontend; then
-  echo "No changes in frontend skip pre-push for frontend."
   exit 0
 fi
 
