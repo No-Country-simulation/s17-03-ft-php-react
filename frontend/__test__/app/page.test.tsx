@@ -1,4 +1,4 @@
-import { render, screen, cleanup } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import RootPage from '@/app/page';
 
 describe('Root page test', () => {
@@ -6,8 +6,9 @@ describe('Root page test', () => {
     cleanup();
     jest.clearAllTimers();
   });
-  it('should find root-page id', () => {
+  it('should find root-page test id', () => {
     render(<RootPage />);
-    expect(screen.getByTestId('root-page')).toBeInTheDocument();
+    const page = screen.getByTestId('root-page');
+    expect(page).toBeInTheDocument();
   });
 });
