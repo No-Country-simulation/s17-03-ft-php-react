@@ -1,5 +1,5 @@
 import { cleanup, render, screen } from '@testing-library/react';
-import AdoptPage from '@/app/adopt/page';
+import AdoptPage from '@/app/(pets)/adopt/page';
 
 describe('Adopt page test', () => {
   afterEach(() => {
