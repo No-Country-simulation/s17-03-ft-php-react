@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: adoption-app
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+      - /var/www/var
+    networks:
+      - network
+    ports:
+      - 8000:80
+  db:
+    image: mysql:8.0
+    container_name: adoption-db
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    volumes:
+      - dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=adoption
+      - MYSQL_ROOT_PASSWORD=123
+    networks:
+      - network
+networks:
+  network:
+    driver: bridge
+volumes:
+  dbdata:
