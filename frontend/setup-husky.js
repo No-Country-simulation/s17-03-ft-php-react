@@ -30,7 +30,7 @@ if ! git diff --cached --name-only | grep -q '^frontend/'; then
 fi
 
 cd frontend
-npx commitlint --edit || { echo -e '\\x1b[0;31m❌The commit message does not meet the requirements. Look at "commitlint.config.js" file.\\x1b[0m'; exit 1; }`;
+npx commitlint --edit || { echo -e "$(tput setaf 1)❌The commit message does not meet the requirements. Look at 'commitlint.config.js' file.$(tput sgr0)"; exit 1; }`;
   fs.writeFileSync(commitMsgPath, commitMsgHook);
 
   // Create pre-commit hook
@@ -59,8 +59,8 @@ if [ ! -d "frontend" ]; then
 fi
 
 cd frontend
-npx tsc || { echo 'Type checking failed. Push aborted.'; exit 1; }
-npx jest --detectOpenHandles --passWithNoTests || { echo 'Tests failed. Push aborted.'; exit 1; }`;
+npx tsc || { echo "$(tput setaf 1)❌Type checking failed. Push aborted.$(tput sgr0)"; exit 1; }
+npx jest --detectOpenHandles --passWithNoTests || { echo "$(tput setaf 1)❌Tests failed. Push aborted.$(tput sgr0)"; exit 1; }`;
   fs.writeFileSync(prePushPath, prePushHook);
 
   // Make hooks executable
