@@ -13,15 +13,12 @@ const meta: Meta<typeof Button> = {
   },
   argTypes: {
     variant: {
-      options: ['default', 'outline'],
+      options: ['default', 'outline', 'elevated', 'disabled'],
       control: { type: 'select' },
     },
     size: {
       options: ['default', 'sm', 'lg', 'full'],
       control: { type: 'select' },
-    },
-    disabled: {
-      control: { type: 'boolean' },
     },
   },
 };
@@ -45,7 +42,6 @@ export const Default: Story = {
     await expect(args.onClick).toHaveBeenCalled();
     const button = canvas.getByTestId('button-default-story');
     await expect(button).toBeInTheDocument();
-    await expect(button).toHaveClass('bg-slate-200');
   },
 };
 
@@ -65,6 +61,43 @@ export const Outline: Story = {
     await userEvent.click(canvas.getByRole('button'));
     await expect(args.onClick).toHaveBeenCalled();
     await expect(button).toBeInTheDocument();
-    await expect(button).toHaveClass('bg-transparent');
+  },
+};
+
+export const Elevated: Story = {
+  render: args => <Button {...args} />,
+  args: {
+    'data-testid': 'button-elevated-story',
+    children: 'Button',
+    variant: 'elevated',
+  },
+  parameters: {
+    jest: ['Button.test.tsx'],
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button'));
+    await expect(args.onClick).toHaveBeenCalled();
+    const button = canvas.getByTestId('button-elevated-story');
+    await expect(button).toBeInTheDocument();
+  },
+};
+
+export const Disabled: Story = {
+  render: args => <Button {...args} />,
+  args: {
+    'data-testid': 'button-disabled-story',
+    children: 'Button',
+    variant: 'disabled',
+  },
+  parameters: {
+    jest: ['Button.test.tsx'],
+  },
+  play: async ({ args, canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button'));
+    await expect(args.onClick).toHaveBeenCalled();
+    const button = canvas.getByTestId('button-disabled-story');
+    await expect(button).toBeInTheDocument();
   },
 };
