@@ -8,13 +8,15 @@ module.exports = {
     'react-app/jest',
     'plugin:storybook/recommended',
     'plugin:tailwindcss/recommended',
+    'eslint:recommended',
   ],
   env: {
     jest: true,
     browser: true,
   },
   rules: {
-    'no-unused-vars': [
+    'no-unused-vars': 'off',
+    '@typescript-eslint/no-unused-vars': [
       'error',
       {
         vars: 'local',
