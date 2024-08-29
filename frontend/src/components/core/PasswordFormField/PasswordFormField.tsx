@@ -8,7 +8,7 @@ type PasswordFormFieldType = 'text' | 'password';
 interface PasswordFormFieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'type'> {
   label?: string;
   'data-testid'?: string;
-  type: PasswordFormFieldType;
+  type?: PasswordFormFieldType;
 }
 
 const PasswordFormField = forwardRef<HTMLInputElement, PasswordFormFieldProps>(

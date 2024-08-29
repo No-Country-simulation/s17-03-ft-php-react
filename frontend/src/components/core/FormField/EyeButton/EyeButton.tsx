@@ -17,7 +17,8 @@ const EyeButton = ({ onTypeChange }: EyeButtonProps) => {
   return (
     <button
       onClick={onReset}
-      className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-99 transition-all duration-300 ease-in-out hover:text-secundario-90">
+      className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-99 transition-all duration-300 ease-in-out hover:text-secundario-90"
+      data-testid="eye-button">
       {!showPassword ? (
         <Image
           src="/icons/EyeHiddeIcon.svg"

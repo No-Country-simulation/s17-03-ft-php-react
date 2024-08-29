@@ -34,6 +34,9 @@ const meta: Meta<typeof FormField> = {
       control: { type: 'boolean' },
     },
   },
+  parameters: {
+    jest: ['FormField.test.tsx'],
+  },
 };
 
 export default meta;
@@ -43,6 +46,7 @@ type Story = StoryObj<typeof FormField>;
 export const Default: Story = {
   args: {
     label: 'Label',
+    'data-testid': 'default-formfieldid',
   },
 
   render: args => <FormField {...args} />,

@@ -29,6 +29,9 @@ const meta: Meta<typeof Field> = {
       control: { type: 'boolean' },
     },
   },
+  parameters: {
+    jest: ['PasswordField.test.tsx'],
+  },
 };
 
 export default meta;
