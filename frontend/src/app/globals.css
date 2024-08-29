@@ -77,6 +77,8 @@
 body {
   max-width: 100dvw;
   font-family: var(--font-montserrat);
+  background: var(--color-neutral-20);
+  color: var(--color-secundario-99);
   overflow-x: hidden;
   touch-action: manipulation;
 }

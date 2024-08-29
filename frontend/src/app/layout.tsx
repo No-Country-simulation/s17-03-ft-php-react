@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import type { ReactNode } from 'react';
+import { type ReactNode, Suspense } from 'react';
+import PageLoader from './loading';
 import { montserrat } from '../styles/font';
 
 export const metadata: Metadata = {
@@ -16,7 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={montserrat.variable}>{children}</body>
+      <body className={montserrat.variable}>
+        <Suspense fallback={<PageLoader />}>{children}</Suspense>
+      </body>
     </html>
   );
 }
