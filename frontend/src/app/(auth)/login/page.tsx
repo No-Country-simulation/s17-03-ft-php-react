@@ -6,8 +6,11 @@ import PasswordFormField from '@/components/core/PasswordFormField/PasswordFormF
 
 export default function LoginPage() {
   return (
-    <div data-testid="login-page" className="container p-3 pt-5" tabIndex={0}>
-      <header className="flex w-full items-center justify-center p-2 pt-12">
+    <div
+      data-testid="login-page"
+      className="container flex flex-col items-center justify-center p-3 pt-5"
+      tabIndex={0}>
+      <header className="flex w-full items-center justify-center p-2 pt-14">
         <Image
           className={`aspect-square drop-shadow-[0px_0px_12px_#fde112]`}
           src="/images/pet.png"
@@ -21,7 +24,7 @@ export default function LoginPage() {
           Pagina de login
         </h1>
       </header>
-      <main className="mt-9 flex w-full flex-col items-start justify-center gap-y-5">
+      <main className="mt-12 flex w-full max-w-lg flex-col items-start justify-center gap-y-5">
         <h2 className="text-3xl font-semibold leading-10" tabIndex={2}>
           Iniciar Sesion
         </h2>
@@ -57,7 +60,7 @@ export default function LoginPage() {
           </Button>
         </div>
       </main>
-      <div className="relative mt-3 w-full max-w-full text-center text-xl text-neutral-99 before:absolute before:left-0 before:top-1/2 before:h-px before:w-2/5 before:border before:border-neutral-99 before:content-[''] after:absolute after:right-0 after:top-1/2 after:h-px after:w-2/5 after:border after:border-neutral-99 after:content-['']">
+      <div className="relative mt-3 flex w-full max-w-full select-none items-center justify-center gap-x-3 text-center text-xl text-neutral-99 before:h-px before:w-full before:max-w-60 before:border before:border-neutral-99 before:content-[''] after:h-px after:w-full after:max-w-60 after:border after:border-neutral-99 after:content-['']">
         O
       </div>
       <div className="mt-2 flex w-full max-w-full items-center justify-center">
