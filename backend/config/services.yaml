@@ -19,6 +19,10 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
+            # - '../src/Serializer/Denormalizer/PetPostDenormalizer.php'
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    App\Serializer\Denormalizer\PetPostDenormalizer:
+        tags:
+            - { name: 'serializer.normalizer', priority: -10000 }
