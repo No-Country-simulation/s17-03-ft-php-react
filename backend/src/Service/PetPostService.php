@@ -50,6 +50,7 @@ class PetPostService {
 		$petPost->setAge($petPostDto->getAge());
 		$petPost->setDescription($petPostDto->getDescription());
 		$petPost->setSize($petPostDto->getSize());
+        $petPost->setUpdatedAt(new \DateTimeImmutable());
 
         return $this->petPostRepository->save($petPost);
     }
