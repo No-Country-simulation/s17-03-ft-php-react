@@ -2,6 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .visually-hidden {
+    @apply absolute left-0 top-0 size-px select-none overflow-hidden whitespace-nowrap;
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+  .or-driver-bars {
+    @apply relative flex w-full max-w-full select-none items-center justify-center gap-x-3 text-center text-xl text-neutral-99 before:h-px before:border before:border-neutral-99 before:content-[''] after:h-px after:border after:border-neutral-99 after:content-[''];
+  }
+
+  .after-bright-blue::after {
+    position: absolute;
+    bottom: -150%;
+    background-color: rgba(25, 232, 222, 0.12);
+    filter: blur(3rem);
+    content: ' ';
+    border-radius: 100%;
+    left: -3rem;
+    height: 20rem;
+    width: 10rem;
+  }
+  .before-bright-white::before {
+    position: absolute;
+    top: -5rem;
+    background-color: rgba(255, 255, 194, 0.25);
+    filter: blur(3rem);
+    content: ' ';
+    border-radius: 100%;
+    right: -5rem;
+    height: 20rem;
+    width: 9.375rem;
+  }
+}
+
 :root {
   height: 100%;
 
@@ -76,6 +109,7 @@
 
 body {
   max-width: 100dvw;
+  height: 100dvh;
   font-family: var(--font-montserrat);
   background: var(--color-neutral-20);
   color: var(--color-secundario-99);
