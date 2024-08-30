@@ -1,8 +1,8 @@
 import Link from 'next/link';
 import LogoHeader from '@/components/LogoHeader/LogoHeader';
 import LoginForm from './_components/LoginForm/LoginForm';
-import ExternalSignin from '../../../components/ExternalSignin/ExternalSignin';
 import LoginToSignup from './_components/LoginToSignup/LoginToSignup';
+import ExternalSignin from '../../../components/ExternalSignin/ExternalSignin';
 
 export default function LoginPage() {
   return (
@@ -19,7 +19,7 @@ export default function LoginPage() {
         <LoginForm />
         <ExternalSignin />
       </main>
-      <div className="or-driver-bars before:w-full before:max-w-60 after:w-full after:max-w-60">
+      <div className="or-driver-bars mt-2 before:w-full before:max-w-60 after:w-full after:max-w-60">
         O
       </div>
       <LoginToSignup />
