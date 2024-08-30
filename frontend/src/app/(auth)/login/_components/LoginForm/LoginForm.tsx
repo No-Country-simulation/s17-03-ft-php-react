@@ -4,7 +4,7 @@ import PasswordFormField from '@/components/core/PasswordFormField/PasswordFormF
 
 const LoginForm = () => {
   return (
-    <form className="mb-5 flex flex-col gap-y-5">
+    <form data-testid="form-login" className="mb-5 flex flex-col gap-y-5">
       <h2 className="text-3xl font-semibold leading-10" tabIndex={2}>
         Iniciar Sesion
       </h2>
@@ -20,7 +20,7 @@ const LoginForm = () => {
       <PasswordFormField
         tabIndex={4}
         id="password-field"
-        data-testid="email-field"
+        data-testid="password-field"
         label="Contraseña"
         autoComplete="off"
       />

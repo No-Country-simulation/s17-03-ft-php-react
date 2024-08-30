@@ -58,7 +58,7 @@ const ExternalSignin = () => {
             height={24}
             className="absolute -left-8 top-1/2 -translate-y-1/2"
           />
-          Continuar con Apple
+          Continuar con Meta
         </span>
       </Button>
     </div>
