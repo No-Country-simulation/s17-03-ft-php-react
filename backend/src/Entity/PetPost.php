@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\PetPostRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: PetPostRepository::class)]
 class PetPost
@@ -12,22 +15,49 @@ class PetPost
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
     private ?int $id = null;
-
+    
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
     private ?string $name = null;
-
+    
     #[ORM\Column(length: 1)]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
     private ?string $gender = null;
-
+    
     #[ORM\Column(nullable: true)]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
     private ?int $age = null;
-
+    
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
     private ?string $description = null;
-
+    
     #[ORM\Column]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
     private ?int $size = null;
+    
+    #[ORM\Column]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
+    private ?\DateTimeImmutable $createdAt = null;
+    
+    #[ORM\Column]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
+    private ?\DateTimeImmutable $updatedAt = null;
+    
+    /**
+     * @var Collection<int, PetPostImage>
+     */
+    #[ORM\OneToMany(targetEntity: PetPostImage::class, mappedBy: 'petPost', cascade: ['persist'])]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
+    private Collection $images;
+
+    public function __construct() {
+        $this->createdAt = new \DateTimeImmutable();
+        $this->updatedAt = new \DateTimeImmutable();
+        $this->images = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -90,6 +120,60 @@ class PetPost
     public function setSize(int $size): static
     {
         $this->size = $size;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    {
+        $this->updatedAt = $updatedAt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PetPostImage>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(PetPostImage $image): static
+    {
+        if (!$this->images->contains($image)) {
+            $this->images->add($image);
+            $image->setPetPost($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(PetPostImage $image): static
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getPetPost() === $this) {
+                $image->setPetPost(null);
+            }
+        }
 
         return $this;
     }
