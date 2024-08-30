@@ -40,7 +40,7 @@ class PetPostController extends AbstractController
 	): JsonResponse {
 		try {
 			$post = $this->petPostService->getById($id);
-			return $this->json($post, Response::HTTP_OK);
+			return $this->json($post, Response::HTTP_OK, [], ['groups' => ['pet_post:read']]);
 		} catch (NotFoundHttpException $e) {
 			return $this->json([
 				'message' => $e->getMessage()
@@ -74,7 +74,7 @@ class PetPostController extends AbstractController
 	): JsonResponse {
 		try {
 			$post = $this->petPostService->edit($petPostDTO, $id);
-			return $this->json($post, Response::HTTP_OK);
+			return $this->json($post, Response::HTTP_OK, [], ['groups' => 'pet_post:write']);
 		} catch (NotFoundHttpException $e) {
 			return $this->json([
 				'message' => $e->getMessage()

@@ -26,3 +26,9 @@ services:
     App\Serializer\Denormalizer\PetPostDenormalizer:
         tags:
             - { name: 'serializer.normalizer', priority: -10000 }
+    
+    ImageKit\ImageKit:
+        arguments:
+            $publicKey: '%env(string:IMAGE_KIT_PUBLIC)%'
+            $privateKey: '%env(string:IMAGE_KIT_PRIVATE)%'
+            $urlEndpoint: '%env(string:IMAGE_KIT_URL_ENDPOINT)%'
