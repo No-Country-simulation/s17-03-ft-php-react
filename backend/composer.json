@@ -74,6 +74,7 @@
         }
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.60"
+        "symfony/maker-bundle": "^1.60",
+        "zenstruck/foundry": "^2.0"
     }
 }
