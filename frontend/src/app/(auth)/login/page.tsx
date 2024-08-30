@@ -7,7 +7,7 @@ export default function LoginPage() {
   return (
     <div
       data-testid="login-page"
-      className="container flex flex-col items-center justify-center p-3 pt-5"
+      className="after-bright-blue before-bright-white container relative flex flex-col items-center justify-center p-3 pt-5"
       tabIndex={0}>
       <Link
         href="/"
