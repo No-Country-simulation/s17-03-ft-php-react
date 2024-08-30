@@ -55,7 +55,7 @@ const FormField = forwardRef<HTMLInputElement, FormFieldProps>(function FormFiel
         className={cn(formFieldCVA({ className }))}
       />
       <label
-        className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 bg-neutral-20 px-2 py-1 text-base text-secundario-99 transition-all duration-500 ease-in-out peer-focus:-top-4 peer-focus:left-3 peer-focus:translate-y-0 peer-focus:scale-[.85] peer-focus:text-secundario-95 peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:scale-[.85]"
+        className="pointer-events-none absolute left-4 top-1/2 w-fit -translate-y-1/2 truncate bg-neutral-20 px-2 py-1 text-base text-secundario-99 transition-all duration-500 ease-in-out peer-focus:-top-4 peer-focus:left-3 peer-focus:translate-y-0 peer-focus:scale-[.85] peer-focus:text-secundario-95 peer-[:not(:placeholder-shown)]:-top-4 peer-[:not(:placeholder-shown)]:left-3 peer-[:not(:placeholder-shown)]:translate-y-0 peer-[:not(:placeholder-shown)]:scale-[.85]"
         htmlFor={defaultID}>
         {label}
       </label>
