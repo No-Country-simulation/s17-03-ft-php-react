@@ -13,12 +13,12 @@
 
   .after-bright-blue::after {
     position: absolute;
-    bottom: -12rem;
+    bottom: -150%;
     background-color: rgba(25, 232, 222, 0.12);
-    filter: blur(2.25rem);
+    filter: blur(3rem);
     content: ' ';
     border-radius: 100%;
-    left: -4rem;
+    left: -3rem;
     height: 20rem;
     width: 10rem;
   }
@@ -109,6 +109,7 @@
 
 body {
   max-width: 100dvw;
+  height: 100dvh;
   font-family: var(--font-montserrat);
   background: var(--color-neutral-20);
   color: var(--color-secundario-99);

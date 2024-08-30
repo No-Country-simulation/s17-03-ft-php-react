@@ -4,7 +4,7 @@ import Button from '@/components/core/Button/Button';
 const ExternalSignin = () => {
   return (
     <div
-      className="flex w-full flex-col gap-y-4 pb-3 pt-2"
+      className="after-bright-blue relative flex w-full flex-col gap-y-4 pb-3 pt-2"
       aria-label="Otras formas de iniciar sesion"
       tabIndex={6}>
       <Button
@@ -49,7 +49,7 @@ const ExternalSignin = () => {
         size="full"
         variant="outline"
         tabIndex={9}
-        className="relative flex items-center justify-center border-neutral-99 px-6 py-2">
+        className="relative flex items-center justify-center overflow-visible border-neutral-99 px-6 py-2">
         <span className="relative w-fit text-center text-sm min-[290px]:text-base">
           <Image
             src="/icons/MetaIcon.png"
