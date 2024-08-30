@@ -31,6 +31,7 @@
       }
     ],
     "paths": {
+      "@styles/*": ["./src/styles/*"],
       "@/*": ["./src/*"],
       "test-utils": ["./__test__/test-utils.jsx"],
       "utils": ["./src/lib/utils.ts"]

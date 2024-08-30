@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .visually-hidden {
+    @apply absolute left-0 top-0 size-px select-none overflow-hidden whitespace-nowrap;
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+  .or-driver-bars {
+    @apply relative mt-3 flex w-full max-w-full select-none items-center justify-center gap-x-3 text-center text-xl text-neutral-99 before:h-px before:border before:border-neutral-99 before:content-[''] after:h-px after:border after:border-neutral-99 after:content-[''];
+  }
+}
+
 :root {
   height: 100%;
 
