@@ -25,6 +25,7 @@ const ResetButton = ({ inputId }: ResetButtonProps) => {
   };
   return (
     <button
+      type="button"
       onClick={onReset}
       className="absolute right-3 top-1/2 -translate-y-1/2 text-neutral-99 transition-all duration-300 ease-in-out hover:text-error-60"
       data-testid="reset-button"
