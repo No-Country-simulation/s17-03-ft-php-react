@@ -13,7 +13,7 @@ const ExternalSignin = () => {
         size="full"
         variant="outline"
         tabIndex={7}
-        className="relative flex items-center justify-center border-neutral-99 px-6 py-2">
+        className="relative flex items-center justify-center border-neutral-99 px-6 py-2 text-neutral-99">
         <span className="relative w-fit text-center text-sm min-[290px]:text-base">
           <Image
             src="/icons/GoogleIcon.png"
@@ -31,7 +31,7 @@ const ExternalSignin = () => {
         size="full"
         variant="outline"
         tabIndex={8}
-        className="relative flex items-center justify-center border-neutral-99 px-6 py-2">
+        className="relative flex items-center justify-center border-neutral-99 px-6 py-2 text-neutral-99">
         <span className="relative w-fit text-center text-sm min-[290px]:text-base">
           <Image
             src="/icons/AppleIcon.png"
@@ -49,7 +49,7 @@ const ExternalSignin = () => {
         size="full"
         variant="outline"
         tabIndex={9}
-        className="relative flex items-center justify-center overflow-visible border-neutral-99 px-6 py-2">
+        className="relative flex items-center justify-center overflow-visible border-neutral-99 px-6 py-2 text-neutral-99">
         <span className="relative w-fit text-center text-sm min-[290px]:text-base">
           <Image
             src="/icons/MetaIcon.png"

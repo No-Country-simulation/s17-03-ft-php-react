@@ -5,16 +5,16 @@ import { cn } from 'utils';
 
 //Button variant example
 const btnCVA = cva(
-  'inline-flex items-center justify-center outline-none rounded-xl focus:outline-none transition active:outline-none focus-visible:outline-none no-underline truncate disabled:opacity-60 disabled:cursor-default',
+  'inline-flex items-center justify-center outline-none rounded-xl focus:outline-none transition active:outline-none focus-visible:outline-none no-underline truncate disabled:opacity-60 disabled:cursor-default disabled:bg-neutral-90 disable:text-neutral-10',
   {
     variants: {
       variant: {
         default:
-          'bg-[rgba(253,225,18,1)] text-black [&:not(:disabled)]:hover:bg-[rgba(255,241,69,1)] [&:not(:disabled)]:hover:shadow-[0px_1px_2px_0px_rgba(0,0,0,0.3)] [&:not(:disabled)]:active:bg-[rgba(253,225,18,1)]',
+          'bg-primario-70 text-primario-10 [&:not(:disabled)]:hover:bg-primario-80 [&:not(:disabled)]:hover:shadow-[0px_1px_2px_0px_rgba(0,0,0,0.3)] [&:not(:disabled)]:active:bg-primario-70',
         outline:
-          'bg-transparent border border-[rgba(242,203,5,1)] [&:not(:disabled)]:hover:bg-[rgba(244,240,239,1)] [&:not(:disabled)]:hover:shadow-[0px_1px_2px_0px_rgba(0,0,0,0.3)] [&:not(:disabled)]:active:bg-transparent',
-        elevated: `bg-[rgba(253,225,18,1)] shadow-[0px_2px_2px_0px_rgba(0,0,0,0.3)] text-black
-          [&:not(:disabled)]:hover:shadow-[0px_2px_2px_0px_rgba(0,0,0,0.6)] [&:not(:disabled)]:active:bg-[rgba(253,225,18,1)],`,
+          'bg-transparent text-primario-60 border border-primario-70 [&:not(:disabled)]:hover:bg-neutral-95 [&:not(:disabled)]:hover:shadow-[0px_1px_2px_0px_rgba(0,0,0,0.3)] [&:not(:disabled)]:active:bg-transparent',
+        elevated: `bg-primario-70 shadow-[0px_2px_2px_0px_rgba(0,0,0,0.3)] text-primario-10
+          [&:not(:disabled)]:hover:shadow-[0px_2px_2px_0px_rgba(0,0,0,0.6)] [&:not(:disabled)]:active:bg-primario-70,`,
         disabled: 'bg-[rgba(229,229,225,1)] cursor-not-allowed',
       },
       size: {
