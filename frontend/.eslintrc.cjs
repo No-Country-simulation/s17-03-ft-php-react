@@ -14,7 +14,7 @@ module.exports = {
     browser: true,
   },
   rules: {
-    'no-unused-vars': [
+    '@typescript-eslint/no-unused-vars': [
       'error',
       {
         vars: 'local',
