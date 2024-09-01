@@ -60,8 +60,7 @@ class AuthenticationController extends AbstractController
         ];
 
         return $this->json([
-            'user' => $this->getUser(),
-            'token' => $token
+            'user' => $this->getUser()
         ], Response::HTTP_OK, $headers, ['groups' => ['user:login']]);
     }
 
