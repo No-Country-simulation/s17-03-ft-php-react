@@ -13,6 +13,11 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+        whoami:
+            pattern: ^/api/auth/whoami
+            provider: app_user_provider
+            stateless: true
+            jwt: ~
         auth:
             pattern: ^/api/auth
             provider: app_user_provider
@@ -43,6 +48,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/auth/whoami, roles: ROLE_USER }
         - { path: ^/api/auth, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: ROLE_USER }
 
