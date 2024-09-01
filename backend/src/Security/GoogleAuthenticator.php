@@ -21,6 +21,8 @@ use Symfony\Component\Security\Http\Authenticator\Passport\SelfValidatingPasspor
 
 class GoogleAuthenticator extends AbstractAuthenticator
 {
+    const TARGET_ROUTE = 'sign_in_google';
+
     public function __construct(
         private Client $googleClient,
         private GoogleOAuthService $googleOAuthService,
@@ -29,7 +31,7 @@ class GoogleAuthenticator extends AbstractAuthenticator
 
     public function supports(Request $request): ?bool
     {
-        return true;
+        return $request->get('_route') === self::TARGET_ROUTE;
     }
 
     public function authenticate(Request $request): Passport

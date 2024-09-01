@@ -14,14 +14,14 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         google_auth:
-            pattern: ^/api/auth/google
+            pattern: ^/api/auth
             provider: app_user_provider
             custom_authenticator: 
                 - App\Security\GoogleAuthenticator
             stateless: true
-        logout:
-            pattern: ^/api/auth/logout
-            stateless: true
+        # logout:
+        #     pattern: ^/api/auth/logout
+        #     stateless: true
         main:
             lazy: true
             provider: app_user_provider
@@ -39,6 +39,7 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/api/auth, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: ROLE_USER }
 
 when@test:
