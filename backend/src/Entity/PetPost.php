@@ -52,6 +52,10 @@ class PetPost
     #[ORM\OneToMany(targetEntity: PetPostImage::class, mappedBy: 'petPost', cascade: ['persist'])]
     #[Groups(['pet_post:read', 'pet_post:write'])]
     private Collection $images;
+    
+    #[ORM\ManyToOne(inversedBy: 'petPosts')]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
+    private ?User $author = null;
 
     public function __construct() {
         $this->createdAt = new \DateTimeImmutable();
@@ -174,6 +178,18 @@ class PetPost
                 $image->setPetPost(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getAuthor(): ?User
+    {
+        return $this->author;
+    }
+
+    public function setAuthor(?User $author): static
+    {
+        $this->author = $author;
 
         return $this;
     }

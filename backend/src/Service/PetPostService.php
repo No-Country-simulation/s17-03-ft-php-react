@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class PetPostService {
     public function __construct(
@@ -23,7 +24,7 @@ class PetPostService {
         private LoggerInterface $logger
     ) {}
 
-    public function create(petPostDto $petPostDto): PetPost
+    public function create(petPostDto $petPostDto, UserInterface $user): PetPost
     {
         // TODO: Validate DTO
         $post = new PetPost();
@@ -32,6 +33,7 @@ class PetPostService {
 		$post->setAge($petPostDto->getAge());
 		$post->setDescription($petPostDto->getDescription());
 		$post->setSize($petPostDto->getSize());
+        $post->setAuthor($user);
 
         return $this->petPostRepository->save($post);
     }

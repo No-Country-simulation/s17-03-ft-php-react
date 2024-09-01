@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -35,7 +37,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
     
     #[ORM\Column(length: 255)]
-    #[Groups(['user:login'])]
+    #[Groups(['user:login', 'pet_post:read', 'pet_post:write'])]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]
@@ -43,6 +45,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $authProviderUserId = null;
+
+    /**
+     * @var Collection<int, PetPost>
+     */
+    #[ORM\OneToMany(targetEntity: PetPost::class, mappedBy: 'author')]
+    private Collection $petPosts;
+
+    public function __construct()
+    {
+        $this->petPosts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -151,6 +164,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAuthProviderUserId(?string $authProviderUserId): static
     {
         $this->authProviderUserId = $authProviderUserId;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PetPost>
+     */
+    public function getPetPosts(): Collection
+    {
+        return $this->petPosts;
+    }
+
+    public function addPetPost(PetPost $petPost): static
+    {
+        if (!$this->petPosts->contains($petPost)) {
+            $this->petPosts->add($petPost);
+            $petPost->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePetPost(PetPost $petPost): static
+    {
+        if ($this->petPosts->removeElement($petPost)) {
+            // set the owning side to null (unless already changed)
+            if ($petPost->getAuthor() === $this) {
+                $petPost->setAuthor(null);
+            }
+        }
 
         return $this;
     }

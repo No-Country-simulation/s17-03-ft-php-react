@@ -25,8 +25,8 @@ class PetPostController extends AbstractController
 		#[MapRequestPayload] PetPostDTO $petPostDTO,
 	): JsonResponse {
 		try {
-			$petPost = $this->petPostService->create($petPostDTO);
-			return $this->json($petPost, Response::HTTP_CREATED);
+			$petPost = $this->petPostService->create($petPostDTO, $this->getUser());
+			return $this->json($petPost, Response::HTTP_CREATED, [], ['groups' => 'pet_post:write']);
 		} catch (\Exception $e) {
 			return $this->json([
 				'message' => $e->getMessage()
