@@ -13,7 +13,7 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        google_auth:
+        auth:
             pattern: ^/api/auth
             provider: app_user_provider
             custom_authenticator: 
