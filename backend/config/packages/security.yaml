@@ -19,6 +19,10 @@ security:
             custom_authenticator: 
                 - App\Security\GoogleAuthenticator
             stateless: true
+            json_login:
+                check_path: login
+                username_path: email
+                failure_handler: App\Security\JsonLoginFailureHandler
         # logout:
         #     pattern: ^/api/auth/logout
         #     stateless: true
