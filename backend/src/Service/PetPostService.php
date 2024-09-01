@@ -5,15 +5,18 @@ namespace App\Service;
 use App\Dto\petPostDto;
 use App\Entity\PetPost;
 use App\Entity\PetPostImage;
+use App\Entity\User;
 use App\Exception\ImagesLimitException;
 use App\Repository\PetPostImageRepository;
 use App\Repository\PetPostRepository;
 use ImageKit\ImageKit;
 use Psr\Log\LoggerInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class PetPostService {
@@ -21,7 +24,8 @@ class PetPostService {
         private PetPostRepository $petPostRepository,
         private PetPostImageRepository $petPostImageRepository,
         private ImageKit $imageKit,
-        private LoggerInterface $logger
+        private LoggerInterface $logger,
+        private Security $security
     ) {}
 
     public function create(petPostDto $petPostDto, UserInterface $user): PetPost
@@ -46,6 +50,12 @@ class PetPostService {
 		if (!$petPost) {
 			throw new NotFoundHttpException('No se encontró el Post con el id: ' . $id);
 		}
+
+        /** @var User $currentUser */
+        $currentUser = $this->security->getUser();
+        if ($currentUser->getId() !== $petPost->getAuthor()->getId()) {
+            throw new UnauthorizedHttpException('Este usuario no puede editar este Post ya que no es su autor');
+        }
 
 		$petPost->setName($petPostDto->getName());
 		$petPost->setGender($petPostDto->getGender());
