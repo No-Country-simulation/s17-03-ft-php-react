@@ -50,6 +50,7 @@ security:
         # - { path: ^/profile, roles: ROLE_USER }
         - { path: ^/api/auth/whoami, roles: ROLE_USER }
         - { path: ^/api/auth, roles: PUBLIC_ACCESS }
+        - { path: ^/api, methods: GET, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: ROLE_USER }
 
 when@test:
