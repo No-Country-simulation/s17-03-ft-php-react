@@ -31,12 +31,12 @@ class AuthenticationController extends AbstractController
     {
         try {
             $user = $this->authService->register($userRegisterDTO);
-            return $this->json($user, Response::HTTP_CREATED);
+            return $this->json($user, Response::HTTP_CREATED, context: ['groups' => ['user:login']]);
         } catch (ValidationErrorsException $e) {
 			return $this->json([
 				'message' => $e->getMessage(),
 				'details' => $e->getDetails()
-			]);
+			], Response::HTTP_BAD_REQUEST);
 		}  catch (EmailInUseException $e) {
             return $this->json(['message' => $e->getMessage()], $e->getStatusCode());
         } catch (\Exception $e) {
