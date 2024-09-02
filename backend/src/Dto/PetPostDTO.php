@@ -6,7 +6,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class PetPostDTO {
-  #[Assert\NotBlank(groups: ['pet_post:validation'])]
+  #[Assert\NotNull(groups: ['pet_post:validation'])]
   public $name = null;
 
   #[Assert\NotBlank(groups: ['pet_post:validation'])]
