@@ -2,26 +2,28 @@
 
 namespace App\Dto;
 
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
+
 class PetPostDTO {
+  #[Assert\NotBlank(groups: ['pet_post:validation'])]
+  public $name = null;
 
-  public ?int $id = null;
-  public ?string $name = null;
-  public ?string $gender = null;
-  public ?int $age = null;
-  public ?string $description = null;
-  public ?int $size = null;
-
-  public function getId()
-  {
-    return $this->id;
-  }
-
-  public function setId($id)
-  {
-    $this->id = $id;
-
-    return $this;
-  }
+  #[Assert\NotBlank(groups: ['pet_post:validation'])]
+  #[Assert\Choice(['M', 'F'], groups: ['pet_post:validation'])]
+  public $gender = null;
+  
+  #[Assert\NotBlank(groups: ['pet_post:validation'])]
+  #[Assert\Positive(groups: ['pet_post:validation'])]
+  #[Assert\Type(type: 'integer', groups: ['pet_post:validation'])]
+  public $age = null;
+  
+  #[Assert\NotBlank(groups: ['pet_post:validation'])]
+  public $description = null;
+  
+  #[Assert\NotBlank(groups: ['pet_post:validation'])]
+  #[Assert\Choice([1, 2, 3], groups: ['pet_post:validation'])] // 1 = small, 2 = medium, 3 = large
+  public $size = null;
 
   public function getName()
   {

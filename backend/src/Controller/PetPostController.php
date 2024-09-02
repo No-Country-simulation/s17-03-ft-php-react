@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Dto\PetPostDTO;
 use App\Entity\PetPost;
+use App\Exception\ValidationErrorsException;
 use App\Service\PetPostService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,6 +28,11 @@ class PetPostController extends AbstractController
 		try {
 			$petPost = $this->petPostService->create($petPostDTO, $this->getUser());
 			return $this->json($petPost, Response::HTTP_CREATED, [], ['groups' => 'pet_post:write']);
+		} catch (ValidationErrorsException $e) {
+			return $this->json([
+				'message' => $e->getMessage(),
+				'details' => $e->getDetails()
+			]);
 		} catch (\Exception $e) {
 			return $this->json([
 				'message' => $e->getMessage()
@@ -75,6 +81,11 @@ class PetPostController extends AbstractController
 		try {
 			$post = $this->petPostService->edit($petPostDTO, $id);
 			return $this->json($post, Response::HTTP_OK, [], ['groups' => 'pet_post:write']);
+		} catch (ValidationErrorsException $e) {
+			return $this->json([
+				'message' => $e->getMessage(),
+				'details' => $e->getDetails()
+			]);
 		} catch (NotFoundHttpException $e) {
 			return $this->json([
 				'message' => $e->getMessage()

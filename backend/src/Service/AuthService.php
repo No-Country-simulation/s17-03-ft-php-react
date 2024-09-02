@@ -5,19 +5,29 @@ namespace App\Service;
 use App\Dto\UserRegisterDTO;
 use App\Entity\User;
 use App\Exception\EmailInUseException;
+use App\Handler\ValidationErrorsHandler;
 use App\Repository\UserRepository;
 use AuthenticationProvider;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class AuthService
 {
     public function __construct(
         private UserRepository $userRepository,
-        private UserPasswordHasherInterface $passwordHasher
+        private UserPasswordHasherInterface $passwordHasher,
+        private ValidatorInterface $validator,
+        private ValidationErrorsHandler $validationErrors
     ) {}
 
     public function register(UserRegisterDTO $userRegisterDTO): User
     {
+        $errors = $this->validator->validate($userRegisterDTO, groups: ['user:register']);
+        
+        if (count($errors) > 0) {
+            $this->validationErrors->handle($errors);
+        }
+
         if ($this->existsUserWithEmail($userRegisterDTO->getEmail())) {
             throw new EmailInUseException($userRegisterDTO->getEmail());
         }

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Dto\UserRegisterDTO;
 use App\Exception\EmailInUseException;
+use App\Exception\ValidationErrorsException;
 use App\Service\AuthService;
 use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -31,7 +32,12 @@ class AuthenticationController extends AbstractController
         try {
             $user = $this->authService->register($userRegisterDTO);
             return $this->json($user, Response::HTTP_CREATED);
-        } catch (EmailInUseException $e) {
+        } catch (ValidationErrorsException $e) {
+			return $this->json([
+				'message' => $e->getMessage(),
+				'details' => $e->getDetails()
+			]);
+		}  catch (EmailInUseException $e) {
             return $this->json(['message' => $e->getMessage()], $e->getStatusCode());
         } catch (\Exception $e) {
             return $this->json(['message' => $e->getMessage()], Response::HTTP_INTERNAL_SERVER_ERROR);

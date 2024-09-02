@@ -7,6 +7,7 @@ use App\Entity\PetPost;
 use App\Entity\PetPostImage;
 use App\Entity\User;
 use App\Exception\ImagesLimitException;
+use App\Handler\ValidationErrorsHandler;
 use App\Repository\PetPostImageRepository;
 use App\Repository\PetPostRepository;
 use ImageKit\ImageKit;
@@ -18,6 +19,8 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
 use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\ConstraintViolation;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 class PetPostService {
     public function __construct(
@@ -25,12 +28,19 @@ class PetPostService {
         private PetPostImageRepository $petPostImageRepository,
         private ImageKit $imageKit,
         private LoggerInterface $logger,
-        private Security $security
+        private Security $security,
+        private ValidatorInterface $validator,
+        private ValidationErrorsHandler $validationErrors
     ) {}
 
     public function create(petPostDto $petPostDto, UserInterface $user): PetPost
     {
-        // TODO: Validate DTO
+        $errors = $this->validator->validate($petPostDto, groups: ['pet_post:validation']);
+        
+        if (count($errors) > 0) {
+            $this->validationErrors->handle($errors);
+        }
+
         $post = new PetPost();
 		$post->setName($petPostDto->getName());
 		$post->setGender($petPostDto->getGender());
@@ -44,7 +54,12 @@ class PetPostService {
 
     public function edit(petPostDto $petPostDto, int $id): PetPost
     {
-        // TODO: Validate DTO
+        $errors = $this->validator->validate($petPostDto, groups: ['pet_post:validation']);
+        
+        if (count($errors) > 0) {
+            $this->validationErrors->handle($errors);
+        }
+        
 		$petPost = $this->petPostRepository->find($id);
 
 		if (!$petPost) {

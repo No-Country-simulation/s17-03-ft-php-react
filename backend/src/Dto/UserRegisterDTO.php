@@ -2,10 +2,19 @@
 
 namespace App\Dto;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 class UserRegisterDTO
 {
+    #[Assert\Email(groups: ['user:register'])]
+    #[Assert\NotBlank(groups: ['user:register'])]
     public $email;
+
+    #[Assert\NotBlank(groups: ['user:register'])]
     public $name;
+
+    #[Assert\NotBlank(groups: ['user:register'])]
+    #[Assert\Length(min: 6, max: 100, groups: ['user:register'])]
     public $password;
 
     public function getEmail()
