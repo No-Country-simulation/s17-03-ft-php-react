@@ -3,9 +3,9 @@
 namespace App\Service;
 
 use App\Entity\User;
+use App\Exception\Authentication\AuthenticationInvalidGoogleTokenException;
 use App\Repository\UserRepository;
-use AuthenticationInvalidGoogleTokenException;
-use AuthenticationProvider;
+use App\Util\AuthenticationProvider;
 use Google\Client;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 

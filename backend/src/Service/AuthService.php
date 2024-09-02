@@ -7,7 +7,7 @@ use App\Entity\User;
 use App\Exception\EmailInUseException;
 use App\Handler\ValidationErrorsHandler;
 use App\Repository\UserRepository;
-use AuthenticationProvider;
+use App\Util\AuthenticationProvider;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
