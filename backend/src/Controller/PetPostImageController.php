@@ -8,8 +8,10 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\TooManyRequestsHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 class PetPostImageController extends AbstractController
@@ -19,16 +21,20 @@ class PetPostImageController extends AbstractController
     ) {}
 
     #[Route('/api/pet-post/{id}/image', name: 'upload_pet_post_image', methods: ['POST'])]
-    public function upload(Request $request, int $id): JsonResponse
+    public function upload(Request $request, int $id, #[MapQueryParameter] bool $main = false): JsonResponse
     {
         try {
             $image = $request->files->get('image');
-            $petPostImage = $this->petPostService->uploadImage($id, $image);
+            $petPostImage = $this->petPostService->uploadImage($id, $image, $main);
             return $this->json($petPostImage, 200, [], ['groups' => 'pet_post_image:read']);
         } catch (NotFoundHttpException $e) {
             return $this->json([
 				'message' => $e->getMessage()
 			], Response::HTTP_NOT_FOUND);
+        } catch(UnauthorizedHttpException $e) {
+             return $this->json([
+                'message' => $e->getMessage()
+             ], Response::HTTP_UNAUTHORIZED);
         } catch (ImagesLimitException $e) {
             return $this->json([
                 'message' => $e->getMessage()                

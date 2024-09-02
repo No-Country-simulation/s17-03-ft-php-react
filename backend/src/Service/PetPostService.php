@@ -127,6 +127,12 @@ class PetPostService {
             throw new NotFoundHttpException('No se encontró el Post con el id: ' . $id);
         }
 
+        /** @var User $currentUser */
+        $currentUser = $this->security->getUser();
+        if ($currentUser->getId() !== $petPost->getAuthor()->getId()) {
+            throw new UnauthorizedHttpException('', 'Este usuario no puede subir imagenes a este Post ya que no es su autor');
+        }
+
         if ($petPost->getImages()->count() >= 5) {
             throw new ImagesLimitException;
         }
@@ -145,6 +151,9 @@ class PetPostService {
 
         if ($petPost->getImages()->isEmpty()) {
             $petPostImage->setMain(true);
+        } else if ($main) {
+            $petPostImage->setMain(true);
+            $petPost->getImages()->map(fn(PetPostImage $image) => $image->setMain(false));
         } else {
             $petPostImage->setMain(false);
         }
