@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Dto\petPostDto;
+use App\Dto\PetPostImageDTO;
 use App\Entity\PetPost;
 use App\Entity\PetPostImage;
 use App\Entity\User;
@@ -125,8 +126,14 @@ class PetPostService {
         $this->petPostRepository->remove($petPost);
     }
 
-    public function uploadImage(int $id, UploadedFile $image, bool $main): PetPostImage
+    public function uploadImage(int $id, PetPostImageDTO $petPostImageDto, bool $main): PetPostImage
     {
+        $errors = $this->validator->validate($petPostImageDto, groups: ['pet_post_image:upload']);
+        
+        if (count($errors) > 0) {
+            $this->validationErrors->handle($errors);
+        }
+
         /** @var PetPost $petPost */
         $petPost = $this->petPostRepository->find($id);
 
@@ -143,7 +150,8 @@ class PetPostService {
         if ($petPost->getImages()->count() >= 5) {
             throw new ImagesLimitException;
         }
-
+        
+        $image = $petPostImageDto->getImage();
         $filename = 'pet-post' . '_' . $id . uniqid() . '.' . $image->guessExtension();
 
         $response = $this->imageKit->uploadFile([
