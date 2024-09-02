@@ -56,6 +56,10 @@ class PetPostImageController extends AbstractController
             return $this->json([
                 'message' => $e->getMessage()
             ], Response::HTTP_NOT_FOUND);
+        } catch(UnauthorizedHttpException $e) {
+            return $this->json([
+               'message' => $e->getMessage()
+            ], Response::HTTP_UNAUTHORIZED);
         } catch(TooManyRequestsHttpException $e) {
             return $this->json([
                 'message' => $e->getMessage()

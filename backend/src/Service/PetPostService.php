@@ -69,7 +69,7 @@ class PetPostService {
         /** @var User $currentUser */
         $currentUser = $this->security->getUser();
         if ($currentUser->getId() !== $petPost->getAuthor()->getId()) {
-            throw new UnauthorizedHttpException('Este usuario no puede editar este Post ya que no es su autor');
+            throw new UnauthorizedHttpException('', 'Este usuario no puede editar este Post ya que no es su autor');
         }
 
 		$petPost->setName($petPostDto->getName());
@@ -111,14 +111,21 @@ class PetPostService {
 
     public function delete(int $id): void
     {
-        $post = $this->petPostRepository->find($id);
-        if (!$post) {
+        $petPost = $this->petPostRepository->find($id);
+        if (!$petPost) {
             throw new NotFoundHttpException('No se encontró el Post con el id: ' . $id);
         }
-        $this->petPostRepository->remove($post);
+
+        /** @var User $currentUser */
+        $currentUser = $this->security->getUser();
+        if ($currentUser->getId() !== $petPost->getAuthor()->getId()) {
+            throw new UnauthorizedHttpException('', 'Este usuario no puede editar este Post ya que no es su autor');
+        }
+
+        $this->petPostRepository->remove($petPost);
     }
 
-    public function uploadImage(int $id, UploadedFile $image): PetPostImage
+    public function uploadImage(int $id, UploadedFile $image, bool $main): PetPostImage
     {
         /** @var PetPost $petPost */
         $petPost = $this->petPostRepository->find($id);
@@ -172,6 +179,12 @@ class PetPostService {
         
         if (!$petPost) {
             throw new NotFoundHttpException('No se encontró el Post con el id: ' . $id);
+        }
+        
+        /** @var User $currentUser */
+        $currentUser = $this->security->getUser();
+        if ($currentUser->getId() !== $petPost->getAuthor()->getId()) {
+            throw new UnauthorizedHttpException('', 'Este usuario no puede eliminar imagenes de este Post ya que no es su autor');
         }
 
         /** @var PetPostImage $petPostImage */

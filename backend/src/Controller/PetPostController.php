@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapQueryParameter;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 class PetPostController extends AbstractController
@@ -32,7 +33,7 @@ class PetPostController extends AbstractController
 			return $this->json([
 				'message' => $e->getMessage(),
 				'details' => $e->getDetails()
-			]);
+			], Response::HTTP_BAD_REQUEST);
 		} catch (\Exception $e) {
 			return $this->json([
 				'message' => $e->getMessage()
@@ -65,7 +66,9 @@ class PetPostController extends AbstractController
 	{
 		try {
 			$response = $this->petPostService->getAll($page);
-			return $this->json($response, Response::HTTP_OK);
+			return $this->json($response, Response::HTTP_OK, [], [
+				'groups' => ['pet_post:read'],
+			]);
 		} catch (\Exception $e) {
 			return $this->json([
 				'message' => $e->getMessage()
@@ -81,7 +84,11 @@ class PetPostController extends AbstractController
 		try {
 			$post = $this->petPostService->edit($petPostDTO, $id);
 			return $this->json($post, Response::HTTP_OK, [], ['groups' => 'pet_post:write']);
-		} catch (ValidationErrorsException $e) {
+		} catch(UnauthorizedHttpException $e) {
+			return $this->json([
+			   'message' => $e->getMessage()
+			], Response::HTTP_UNAUTHORIZED);
+	   } catch (ValidationErrorsException $e) {
 			return $this->json([
 				'message' => $e->getMessage(),
 				'details' => $e->getDetails()
