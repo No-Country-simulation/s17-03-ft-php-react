@@ -25,7 +25,7 @@ services:
     # please note that last definitions always *replace* previous ones
     App\Serializer\Denormalizer\PetPostDenormalizer:
         tags:
-            - { name: 'serializer.normalizer', priority: -10000 }
+            - { name: 'serializer.normalizer', priority: -100 }
     
     ImageKit\ImageKit:
         arguments:

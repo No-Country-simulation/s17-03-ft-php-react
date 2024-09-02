@@ -3,11 +3,21 @@
 namespace App\Serializer\Denormalizer;
 
 use App\Dto\PetPostDTO;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 
 class PetPostDenormalizer implements DenormalizerInterface
 {
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): array
+    const ALREADY_CALLED = 'already_denormalized';
+
+    public function __construct(
+        #[Autowire(service: 'serializer.normalizer.object')]
+        private ObjectNormalizer $normalizer
+    ) {}
+
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): PetPostDTO
     {
         switch ($data['size']) {
             case 'small':
@@ -29,17 +39,22 @@ class PetPostDenormalizer implements DenormalizerInterface
                 $data['gender'] = 'F';
                 break;
         }
-        
-        return $data;
+
+        $context[self::ALREADY_CALLED] = true;
+        return $this->normalizer->denormalize($data, $type, $format, $context);
     }
 
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return $type === PetPostDTO::class;
+        return $type === PetPostDTO::class && !isset($context[self::ALREADY_CALLED]);
     }
 
     public function getSupportedTypes(?string $format): array
     {
-        return ['*' => true];
+        return [
+            '*' => false,
+            'object' => null,
+            PetPostDTO::class => true
+        ];
     }
 }
