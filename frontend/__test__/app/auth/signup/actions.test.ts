@@ -3,8 +3,8 @@ import { redirect } from 'next/navigation';
 import { signupStepOne } from '@/app/(auth)/signup/actions';
 import { ResultCodes } from '@/types/enums/resultCodes';
 
-const VALID_EMAIL = "test@example.com";
-const INVALID_EMAIL = "invalid-email";
+const VALID_EMAIL = 'test@example.com';
+const INVALID_EMAIL = 'invalid-email';
 jest.mock('next/navigation', () => ({
   redirect: jest.fn(url => url),
 }));
