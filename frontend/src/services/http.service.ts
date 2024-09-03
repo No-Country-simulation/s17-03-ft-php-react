@@ -1,9 +1,9 @@
 import { getCookie } from 'cookies-next';
 import { EHttpMethod } from '@/types';
+import { env } from 'env';
+const API_URL = env.API_URL;
 
-const useHttpService = () => {
-  const baseURL = process.env.BASE_URL || 'https://jsonplaceholder.typicode.com';
-
+const useHttpService = (BASE_URL: string = API_URL) => {
   const getAuthorization = (): Record<string, string> => {
     const accessToken = getCookie('AccessToken') || '';
     return accessToken ? { Authorization: `Bearer ${accessToken}` } : {};
@@ -18,23 +18,32 @@ const useHttpService = () => {
   const request = async <T>(
     method: EHttpMethod,
     url: string,
-    options?: RequestInit // eslint-disable-line no-undef
-  ): Promise<T> => {
+    options?: {}
+    // TODO: add types for next refactor
+  ): Promise<
+    T | { httpIsOk: string; httpStatus: string; response: string } | { error: string }
+  > => {
     try {
-      const response = await fetch(`${baseURL}${url}`, {
+      const response = await fetch(`${BASE_URL}${url}`, {
         method,
         ...options,
       });
 
+      const data: T = (await response.json()) as T;
+
       if (!response.ok) {
-        throw new Error('An error occurred while fetching the data.');
+        return {
+          httpIsOk: `${response.ok}`,
+          httpStatus: `${response.status}`,
+          response: `${(data as { message: string }).message}`,
+        };
       }
 
-      const data: T = (await response.json()) as T;
       return data;
     } catch (error) {
-      console.error('Fetch error: ', error);
-      throw error;
+      return {
+        error: (error as Error).message,
+      };
     }
   };
 
