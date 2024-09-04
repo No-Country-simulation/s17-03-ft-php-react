@@ -12,7 +12,7 @@ const btnCVA = cva(
         default:
           'bg-primario-70 text-primario-10 [&:not(:disabled)]:hover:bg-primario-80 [&:not(:disabled)]:hover:shadow-[0px_1px_2px_0px_rgba(0,0,0,0.3)] [&:not(:disabled)]:active:bg-primario-70',
         outline:
-          'bg-transparent text-primario-60 border border-primario-70 [&:not(:disabled)]:hover:bg-neutral-95 [&:not(:disabled)]:hover:shadow-[0px_1px_2px_0px_rgba(0,0,0,0.3)] [&:not(:disabled)]:active:bg-transparent',
+          'bg-transparent text-primario-60 border border-primario-70 [&:not(:disabled)]:hover:bg-neutral-40 [&:not(:disabled)]:hover:shadow-[0px_1px_2px_0px_rgba(0,0,0,0.3)] [&:not(:disabled)]:active:bg-transparent',
         elevated: `bg-primario-70 shadow-[0px_2px_2px_0px_rgba(0,0,0,0.3)] text-primario-10
           [&:not(:disabled)]:hover:shadow-[0px_2px_2px_0px_rgba(0,0,0,0.6)] [&:not(:disabled)]:active:bg-primario-70,`,
         disabled: 'bg-[rgba(229,229,225,1)] cursor-not-allowed',
