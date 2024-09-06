@@ -41,7 +41,8 @@ class AuthService
             ->setEmail($userRegisterDTO->getEmail())
             ->setName($userRegisterDTO->getName())
             ->setPassword($hashedPassword)
-            ->setAuthProvider(AuthenticationProvider::APP);
+            ->setAuthProvider(AuthenticationProvider::APP)
+            ->setDateOfBirth($userRegisterDTO->getDateOfBirth());
 
         $this->userRepository->save($user);
 
