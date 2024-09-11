@@ -52,8 +52,6 @@ class AuthService
           $this->validationErrors->handle($errorUser);
         }
 
-        dd($dateFormat);
-
         $this->userRepository->save($user);
 
         return $user;
