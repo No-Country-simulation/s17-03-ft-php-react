@@ -17,6 +17,7 @@ class UserRegisterDTO
     #[Assert\Length(min: 6, max: 100, groups: ['user:register'])]
     public $password;
 
+    #[Assert\Date(groups: ['user:register'])]
     #[Assert\NotBlank(groups: ['user:register'])]
     public $dateOfBirth;
 
