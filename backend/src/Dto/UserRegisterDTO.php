@@ -17,6 +17,10 @@ class UserRegisterDTO
     #[Assert\Length(min: 6, max: 100, groups: ['user:register'])]
     public $password;
 
+    #[Assert\Date(groups: ['user:register'])]
+    #[Assert\NotBlank(groups: ['user:register'])]
+    public $dateOfBirth;
+
     public function getEmail()
     {
         return $this->email;
@@ -49,6 +53,18 @@ class UserRegisterDTO
     public function setPassword($password)
     {
         $this->password = $password;
+
+        return $this;
+    }
+
+    public function getDateOfBirth()
+    {
+        return $this->dateOfBirth;
+    }
+
+    public function setDateOfBirth($dateOfBirth)
+    {
+        $this->dateOfBirth = $dateOfBirth;
 
         return $this;
     }

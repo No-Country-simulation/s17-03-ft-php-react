@@ -5,10 +5,12 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
@@ -51,6 +53,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\OneToMany(targetEntity: PetPost::class, mappedBy: 'author')]
     private Collection $petPosts;
+
+    #[ORM\Column(type: Types::DATE_IMMUTABLE)]
+    #[Assert\LessThanOrEqual('-18 years')]
+    private ?\DateTimeImmutable $dateOfBirth = null;
 
     public function __construct()
     {
@@ -194,6 +200,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $petPost->setAuthor(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateOfBirth(): ?\DateTimeImmutable
+    {
+        return $this->dateOfBirth;
+    }
+
+    public function setDateOfBirth(\DateTimeImmutable $dateOfBirth): static
+    {
+        $this->dateOfBirth = $dateOfBirth;
 
         return $this;
     }

@@ -37,11 +37,20 @@ class AuthService
             $user,
             $userRegisterDTO->getPassword()
         );
+        $dateFormat = \DateTimeImmutable::createFromFormat('Y-m-d', $userRegisterDTO->getDateOfBirth());
+    
         $user
             ->setEmail($userRegisterDTO->getEmail())
             ->setName($userRegisterDTO->getName())
             ->setPassword($hashedPassword)
-            ->setAuthProvider(AuthenticationProvider::APP);
+            ->setAuthProvider(AuthenticationProvider::APP)
+            ->setDateOfBirth($dateFormat);
+
+        $errorUser = $this->validator->validate($user);
+
+        if (count($errorUser) > 0) {
+          $this->validationErrors->handle($errorUser);
+        }
 
         $this->userRepository->save($user);
 
