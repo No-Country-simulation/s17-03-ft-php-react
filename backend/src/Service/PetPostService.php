@@ -4,6 +4,7 @@ namespace App\Service;
 
 use App\Dto\petPostDto;
 use App\Dto\PetPostImageDTO;
+use App\Dto\PetPostV2DTO;
 use App\Entity\PetPost;
 use App\Entity\PetPostImage;
 use App\Entity\User;
@@ -51,6 +52,38 @@ class PetPostService {
         $post->setAuthor($user);
 
         return $this->petPostRepository->save($post);
+    }    
+    
+    public function createV2(PetPostV2DTO $petPostV2Dto, UserInterface $user): PetPost
+    {
+        $errors = $this->validator->validate($petPostV2Dto, groups: ['pet_post:validation']);
+        
+        if (count($errors) > 0) {
+            $this->validationErrors->handle($errors);
+        }
+
+        $post = new PetPost();
+		$post->setName($petPostV2Dto->getName());
+		$post->setGender($petPostV2Dto->getGender());
+		$post->setAge($petPostV2Dto->getAge());
+		$post->setDescription($petPostV2Dto->getDescription());
+        $post->setMedicalHistory($petPostV2Dto->getMedicalHistory());
+        $post->setAuthor($user);
+
+        $petPost = $this->petPostRepository->save($post);
+
+        /** @var UploadedFile[] $images */
+        $images = $petPostV2Dto->getImages();
+
+        foreach ($images as $i => $image) {
+            $isFirst = $i === 0; 
+            if ($image !== null) {
+                $petPostImage = $this->uploadImageV2($petPost, $image, $isFirst);
+                $petPost->addImage($petPostImage);
+            }
+        }
+        
+        return $this->petPostRepository->save($petPost);;
     }
 
     public function edit(petPostDto $petPostDto, int $id): PetPost
@@ -209,5 +242,41 @@ class PetPostService {
         }
 
         $this->petPostImageRepository->remove($petPostImage);
+    }
+
+    public function uploadImageV2(PetPost $petPost, UploadedFile $image, bool $main): PetPostImage
+    {
+        /** @var User $currentUser */
+        $currentUser = $this->security->getUser();
+        if ($currentUser->getId() !== $petPost->getAuthor()->getId()) {
+            throw new UnauthorizedHttpException('', 'Este usuario no puede subir imagenes a este Post ya que no es su autor');
+        }
+
+        if ($petPost->getImages()->count() >= 5) {
+            throw new ImagesLimitException;
+        }
+
+        $filename = 'pet-post' . '_' . $petPost->getId() . uniqid() . '.' . $image->guessExtension();
+
+        $response = $this->imageKit->uploadFile([
+            'file' => base64_encode($image->getContent()),
+            'fileName' => $filename,
+            'folder' => 's17-03-ft-php-react'
+        ]);
+
+        $petPostImage = new PetPostImage();
+        $petPostImage->setImagePath($response->result->filePath)
+            ->setImageKitFileId($response->result->fileId);
+
+        if ($petPost->getImages()->isEmpty()) {
+            $petPostImage->setMain(true);
+        } else if ($main) {
+            $petPostImage->setMain(true);
+            $petPost->getImages()->map(fn(PetPostImage $image) => $image->setMain(false));
+        } else {
+            $petPostImage->setMain(false);
+        }
+        
+        return $petPostImage;
     }
 }

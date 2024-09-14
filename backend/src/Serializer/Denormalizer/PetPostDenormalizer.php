@@ -3,7 +3,9 @@
 namespace App\Serializer\Denormalizer;
 
 use App\Dto\PetPostDTO;
+use App\Dto\PetPostV2DTO;
 use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Serializer\Normalizer\DenormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -14,10 +16,11 @@ class PetPostDenormalizer implements DenormalizerInterface
 
     public function __construct(
         #[Autowire(service: 'serializer.normalizer.object')]
-        private ObjectNormalizer $normalizer
+        private ObjectNormalizer $normalizer,
+        private RequestStack $requestStack
     ) {}
 
-    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): PetPostDTO
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): PetPostDTO | PetPostV2DTO
     {
         switch ($data['size']) {
             case 'small':
@@ -40,13 +43,24 @@ class PetPostDenormalizer implements DenormalizerInterface
                 break;
         }
 
+        if (is_numeric($data['age'])) {
+            $data['age'] = (int) $data['age'];
+        }
+
+        if ($type === PetPostV2DTO::class) {
+            $request = $this->requestStack->getCurrentRequest();
+    
+            $files = $request->files->getIterator()->getArrayCopy();
+            $data = array_merge($data, $files);
+        }
+
         $context[self::ALREADY_CALLED] = true;
         return $this->normalizer->denormalize($data, $type, $format, $context);
     }
 
     public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
-        return $type === PetPostDTO::class && !isset($context[self::ALREADY_CALLED]);
+        return $type === PetPostDTO::class || $type === PetPostV2DTO::class && !isset($context[self::ALREADY_CALLED]);
     }
 
     public function getSupportedTypes(?string $format): array
@@ -54,7 +68,8 @@ class PetPostDenormalizer implements DenormalizerInterface
         return [
             '*' => false,
             'object' => null,
-            PetPostDTO::class => true
+            PetPostDTO::class => true,
+            PetPostV2DTO::class => true
         ];
     }
 }
