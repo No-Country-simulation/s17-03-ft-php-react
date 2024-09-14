@@ -57,6 +57,14 @@ class PetPost
     #[Groups(['pet_post:read', 'pet_post:write'])]
     private ?User $author = null;
 
+    #[ORM\Column(length: 255)]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
+    private ?string $breed = null;
+
+    #[ORM\Column(type: Types::TEXT)]
+    #[Groups(['pet_post:read', 'pet_post:write'])]
+    private ?string $medicalHistory = null;
+
     public function __construct() {
         $this->createdAt = new \DateTimeImmutable();
         $this->updatedAt = new \DateTimeImmutable();
@@ -190,6 +198,30 @@ class PetPost
     public function setAuthor(?User $author): static
     {
         $this->author = $author;
+
+        return $this;
+    }
+
+    public function getBreed(): ?string
+    {
+        return $this->breed;
+    }
+
+    public function setBreed(string $breed): static
+    {
+        $this->breed = $breed;
+
+        return $this;
+    }
+
+    public function getMedicalHistory(): ?string
+    {
+        return $this->medicalHistory;
+    }
+
+    public function setMedicalHistory(string $medicalHistory): static
+    {
+        $this->medicalHistory = $medicalHistory;
 
         return $this;
     }

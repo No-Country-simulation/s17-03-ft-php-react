@@ -67,6 +67,8 @@ class PetPostService {
 		$post->setGender($petPostV2Dto->getGender());
 		$post->setAge($petPostV2Dto->getAge());
 		$post->setDescription($petPostV2Dto->getDescription());
+		$post->setSize($petPostV2Dto->getSize());
+        $post->setBreed($petPostV2Dto->getBreed());
         $post->setMedicalHistory($petPostV2Dto->getMedicalHistory());
         $post->setAuthor($user);
 
